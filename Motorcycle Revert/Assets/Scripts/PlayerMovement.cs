@@ -49,10 +49,24 @@ public class PlayerMovement : MonoBehaviour
             Vector2 groundTangent = new Vector2 (groundHit.normal.y, -groundHit.normal.x);
             float slopeEffect = Vector3.Dot(velocity, groundTangent);
             Debug.DrawRay(transform.position, groundTangent);
-            velocity = slopeEffect * groundTangent;
-            velocity -= velocity * (1 - friction) * Time.deltaTime;
+            if (Mathf.Abs(slopeEffect) < Vector3.Dot(velocity, groundHit.normal))
+            {
+                grounded=false;
+                velocity = slopeEffect * groundTangent;
+                velocity.y += gravity * Time.deltaTime;
+                gravity -= gravityFactor * Time.deltaTime;
+                transform.right = Vector3.Lerp(transform.right, Vector3.right, Time.deltaTime);
+            }
+            else
+            {
+                velocity = slopeEffect * groundTangent;
+                velocity -= velocity * (1 - friction) * Time.deltaTime;
+                gravity = -jumpGravity;
+            }
+            
+            
 
-            gravity = -fallGravity;
+            
             transform.right = groundTangent.normalized;
 
         }
@@ -65,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
             transform.right = Vector3.Lerp(transform.right, Vector3.right, Time.deltaTime);
             gravity -= gravityFactor * Time.deltaTime;
         }
-        player.cameraManager.AlignCameraY(grounded);
         rb.linearVelocity = velocity;
     }
 
@@ -111,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator JumpHold()
     {
         gravityFactor = jumpGravity;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         gravityFactor = fallGravity;
     }
 }

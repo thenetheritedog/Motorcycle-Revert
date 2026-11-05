@@ -8,6 +8,9 @@ public class CameraManager : MonoBehaviour
     [SerializeField] Vector2 camLimit;
     public Vector2 mousePos { get; private set; }
 
+
+    float baseSpeed;
+
     Vector2 cameraOffset;
     Vector2 cameraOffsetTarget;
     
@@ -19,13 +22,18 @@ public class CameraManager : MonoBehaviour
         player = FindAnyObjectByType<PlayerManager>();
         cam = Camera.main;
         cameraObject = transform.GetChild(0).gameObject;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.right * Time.deltaTime * player.speedUsing;
-
+        Vector3 pos = transform.position;
+        
+        
+        pos.x = Mathf.Lerp(transform.position.x, player.transform.position.x + 5, Time.deltaTime * speedOfCamera);
+        pos.y = Mathf.Lerp(pos.y, player.transform.position.y + yOffset, speedOfCamera * Time.deltaTime);
+        transform.position = pos;
         cameraOffset = Vector2.Lerp(cameraOffset, cameraOffsetTarget, Time.deltaTime * speedOfCamera);
         cameraObject.transform.position = transform.position;
         cameraObject.transform.position += new Vector3(cameraOffset.x, cameraOffset.y, -10f);
@@ -53,14 +61,5 @@ public class CameraManager : MonoBehaviour
         
     }
 
-    public void AlignCameraY(bool grounded)
-    {
-        Vector2 pos = transform.position;
-        if (grounded || player.transform.position.y - yOffset - pos.y > yClamp) 
-        {
-            pos.y = Mathf.Lerp(pos.y, player.transform.position.y + yOffset, speedOfCamera * Time.deltaTime);
-        }
-        transform.position = pos;
-
-    }
+    
 }

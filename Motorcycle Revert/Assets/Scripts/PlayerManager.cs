@@ -16,13 +16,16 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] float baseSpeed = 5f;
     [SerializeField] float speedIncreasing;
-    [SerializeField] GameObject breaking;
-    [SerializeField] SpriteRenderer breakSprite;
-    [SerializeField] ParticleSystem breakingParticle;
-    [SerializeField] ParticleSystem.Particle[] arrayBreakingParticle;
+
 
     private PlayerMovement movement;
-    
+
+
+    GameObject breaking;
+    SpriteRenderer breakSprite;
+    Collider2D breakCollider;
+    ParticleSystem breakingParticle;
+    ParticleSystem.Particle[] arrayBreakingParticle;
 
     void Start()
     {
@@ -52,13 +55,14 @@ public class PlayerManager : MonoBehaviour
             breaking = hit2D.gameObject;
             breakingParticle = breaking.GetComponent<ParticleSystem>();
             breakSprite = breakingParticle.GetComponent<SpriteRenderer>();
+            breakCollider = breaking.GetComponent<Collider2D>();
             if (breakSprite.enabled == true)
             {
                 breakingParticle.randomSeed = (uint)UnityEngine.Random.Range(0, 1024);
                 breakingParticle.Emit(20);
             }
             breakSprite.enabled = false;
-            
+            breakCollider.enabled = false;
             
         }
         else
@@ -90,7 +94,7 @@ public class PlayerManager : MonoBehaviour
        else if (breakingParticle != null)
        {
             var mainPart = breakingParticle.main;
-            mainPart.simulationSpeed = 1f;
+            mainPart.simulationSpeed = 1;
             breakingParticle.GetParticles(arrayBreakingParticle);
             float simTime = arrayBreakingParticle[0].startLifetime - arrayBreakingParticle[0].remainingLifetime - Time.deltaTime/6;
             breakingParticle.Simulate(simTime, false, true);
@@ -99,6 +103,7 @@ public class PlayerManager : MonoBehaviour
                 breakingParticle.Stop();
                 breakingParticle.Clear();
                 breakSprite.enabled = true;
+                breakCollider.enabled = true;
                 breakingParticle = null;
                 arrayBreakingParticle = null;
                 breakSprite = null;
@@ -106,4 +111,7 @@ public class PlayerManager : MonoBehaviour
             
         }
     }
+
+
+
 }
