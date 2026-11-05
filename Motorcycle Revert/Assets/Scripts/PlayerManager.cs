@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,9 +17,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] float baseSpeed = 5f;
     [SerializeField] float speedIncreasing;
     [SerializeField] GameObject breaking;
-    ParticleSystem breakingParticle;
+    [SerializeField] SpriteRenderer breakSprite;
+    [SerializeField] ParticleSystem breakingParticle;
+    [SerializeField] ParticleSystem.Particle[] arrayBreakingParticle;
 
     private PlayerMovement movement;
+    
 
     void Start()
     {
@@ -29,24 +34,10 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         speedUsing += speedIncreasing * Time.deltaTime;
-        if (breaking != null)
-        {
-           var mainPart = breakingParticle.main;
-           mainPart.simulationSpeed = 1/(1+breakingParticle.time);
-           breakingParticle.time = Mathf.Clamp(breakingParticle.time, 0, 1);
-        }
-        else if (breakingParticle != null) 
-        {
-            var mainPart = breakingParticle.main;
-            mainPart.simulationSpeed = -1 / (1  -breakingParticle.time);
-            if (breakingParticle.time < 0.1f)
-            {
-                breakingParticle.Stop();
-                breakingParticle.GetComponent<SpriteRenderer>().enabled = true;
-                breakingParticle = null;
-            }
+        BreakParticleHandling();
+        
             
-        }
+        
     }
 
     public void BreakObject(bool clicked)
@@ -59,13 +50,60 @@ public class PlayerManager : MonoBehaviour
         if (clicked && hit2D != null)
         {
             breaking = hit2D.gameObject;
-            breaking.GetComponent<SpriteRenderer>().enabled = false;
             breakingParticle = breaking.GetComponent<ParticleSystem>();
-            breakingParticle.Play();
+            breakSprite = breakingParticle.GetComponent<SpriteRenderer>();
+            if (breakSprite.enabled == true)
+            {
+                breakingParticle.randomSeed = (uint)UnityEngine.Random.Range(0, 1024);
+                breakingParticle.Emit(20);
+            }
+            breakSprite.enabled = false;
+            
+            
         }
         else
         {
             breaking = null;
+        }
+    }
+
+    private void BreakParticleHandling()
+    {
+       if (breaking != null)
+       {
+            var mainPart = breakingParticle.main;
+            if (arrayBreakingParticle == null)
+            {
+                mainPart.simulationSpeed = 1;
+                
+                arrayBreakingParticle = new ParticleSystem.Particle[breakingParticle.main.maxParticles];
+            }
+
+
+            breakingParticle.GetParticles(arrayBreakingParticle);
+
+            if (arrayBreakingParticle[0].remainingLifetime != 0)
+                mainPart.simulationSpeed = Mathf.Sqrt(arrayBreakingParticle[0].remainingLifetime - 0.025f / 2);
+            
+
+       }
+       else if (breakingParticle != null)
+       {
+            var mainPart = breakingParticle.main;
+            mainPart.simulationSpeed = 1f;
+            breakingParticle.GetParticles(arrayBreakingParticle);
+            float simTime = arrayBreakingParticle[0].startLifetime - arrayBreakingParticle[0].remainingLifetime - Time.deltaTime/6;
+            breakingParticle.Simulate(simTime, false, true);
+            if (simTime < 0.025f)
+            {
+                breakingParticle.Stop();
+                breakingParticle.Clear();
+                breakSprite.enabled = true;
+                breakingParticle = null;
+                arrayBreakingParticle = null;
+                breakSprite = null;
+            }
+            
         }
     }
 }
