@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
     }
@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
             Vector2 groundTangent = new Vector2 (groundHit.normal.y, -groundHit.normal.x);
             float slopeEffect = Vector3.Dot(velocity, groundTangent);
             Debug.DrawRay(transform.position, groundTangent);
-            if (Mathf.Abs(slopeEffect) < Vector3.Dot(velocity, groundHit.normal))
+            if (Mathf.Abs(slopeEffect) < Vector3.Dot(Vector3.up * gravity, groundHit.normal))
             {
                 grounded=false;
                 velocity = slopeEffect * groundTangent;
@@ -91,12 +91,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (rb.linearVelocityY > 0 && !grounded)
             return false;
-        groundHit = Physics2D.Raycast(transform.position, -transform.up, 1f, groundLayer);
+        Vector2 downVec = grounded ? -transform.up : Vector3.down;
+        groundHit = Physics2D.CircleCast(transform.position, 0.4f, -transform.up, .5f, groundLayer);
         if (grounded)
         {
-            //transform.position = groundHit.point + Vector2.up/2;
+            transform.position = groundHit.point + groundHit.normal/2;
         }
-        else if (groundHit.distance > 0.55f)
+        else if (groundHit.distance > 0.1f)
         {
             return false;
         }
