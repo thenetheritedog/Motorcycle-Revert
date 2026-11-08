@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI%20Toolkit/StyleSheet.uss?fileID=7433441132597879392&amp;guid=aada47d6f13b431419547420da134b5a&amp;type=3#StyleSheet" />
     <ui:VisualElement name="Root" style="flex-grow: 1;">
         <ui:VisualElement name="Stats" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.32); margin-bottom: 44%; flex-direction: row;">
-            <ui:Label text="Distance&#10;" name="Distance" class="label" style="-unity-text-outline-width: 2px; -unity-text-outline-color: rgb(0, 0, 0); font-size: 42%; -unity-text-align: upper-left; flex-grow: 1; flex-shrink: 1; margin-top: 1%; margin-right: 1%; margin-bottom: 1%; margin-left: 1%;" />
+            <ui:Label text="Distance&#10;" name="Distance" class="label" style="-unity-text-outline-width: 2px; -unity-text-outline-color: rgb(0, 0, 0); font-size: 107%; -unity-text-align: middle-left; flex-grow: 1; flex-shrink: 1; margin-top: 1%; margin-right: 1%; margin-bottom: 1%; margin-left: 1%; background-color: rgba(71, 72, 82, 0); border-top-width: -325px; border-right-width: -325px; border-bottom-width: -325px; border-left-width: -325px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

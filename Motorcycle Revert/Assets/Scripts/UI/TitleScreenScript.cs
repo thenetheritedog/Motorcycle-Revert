@@ -19,6 +19,10 @@ public class TitleScreenScript : MonoBehaviour
         start.RegisterCallback<ClickEvent>(OnStartClick);
         quit = root.Q<Button>("Quit");
         quit.RegisterCallback<ClickEvent>(OnQuitClick);
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            quit.RemoveFromHierarchy();
+        }
     }
 
     void OnStartClick(ClickEvent evt)
