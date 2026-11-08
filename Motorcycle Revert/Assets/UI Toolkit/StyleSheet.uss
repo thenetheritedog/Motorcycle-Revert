@@ -1,0 +1,23 @@
+.label {
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=3886a9b994b924d46ad05d7e24a1c398&type=3#NotInter-Regular");
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+    font-size: 105%;
+}
+
+.button {
+    flex-grow: 1;
+    font-size: 242%;
+    -unity-text-align: middle-center;
+    flex-shrink: 0;
+}
+
+.button:hover {
+    font-size: 245%;
+    transition-timing-function: ease-out-back;
+    transition-duration: 0.1s;
+    scale: 1 1;
+    rotate: 2deg;
+    flex-grow: 2;
+    translate: 0 -11%;
+}

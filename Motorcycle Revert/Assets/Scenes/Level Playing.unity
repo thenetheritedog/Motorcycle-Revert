@@ -2765,34 +2765,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: baseSpeed
-      value: 15.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: speedIncreasing
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: breakMask.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: sectionAssets.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: loadedSections.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: 'sectionAssets.Array.data[0]'
-      value: 
-      objectReference: {fileID: 4896631419427649923, guid: 02e6c9794d2ebfa4292cef6c17305476, type: 3}
-    - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: 'sectionAssets.Array.data[1]'
-      value: 
-      objectReference: {fileID: 4896631419427649923, guid: de0fc14cccd2e8b4d99811c50f852e21, type: 3}
-    - target: {fileID: 244415566695729302, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
       propertyPath: 'loadedSections.Array.data[0]'
       value: 
       objectReference: {fileID: 167852377}
@@ -2804,14 +2776,6 @@ PrefabInstance:
       propertyPath: 'loadedSections.Array.data[2]'
       value: 
       objectReference: {fileID: 1382041759}
-    - target: {fileID: 2012246498034309566, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3544288454847561248, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3661754491653274126, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2820,26 +2784,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 7059835605804408328, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: jumpPower
-      value: 9.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7059835605804408328, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: fallGravity
-      value: 34.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7059835605804408328, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: jumpGravity
-      value: 22.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7059835605804408328, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: acceleration
-      value: 13.39
-      objectReference: {fileID: 0}
-    - target: {fileID: 7059835605804408328, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
-      propertyPath: groundLayer.m_Bits
-      value: 65
-      objectReference: {fileID: 0}
     - target: {fileID: 8430034207808694912, guid: 6aa257ee68c6abf41b54d0ea655b2c93, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.64

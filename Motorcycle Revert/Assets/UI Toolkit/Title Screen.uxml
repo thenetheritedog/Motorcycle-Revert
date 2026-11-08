@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/StyleSheet.uss?fileID=7433441132597879392&amp;guid=aada47d6f13b431419547420da134b5a&amp;type=3#StyleSheet" />
+    <ui:VisualElement name="ROOT" style="flex-grow: 1;">
+        <ui:Label text="Motorcycle&#10;REVERT" name="Title" class="label" style="font-size: 62%; -unity-text-align: upper-left; margin-top: 4%; margin-right: 4%; margin-bottom: 4%; margin-left: 4%;" />
+        <ui:VisualElement name="Buttons" style="flex-grow: 1; flex-direction: column; margin-top: 2%; margin-right: 57%; margin-bottom: 2%; margin-left: 2%;">
+            <ui:Button text="Start" name="Start" class="button label" />
+            <ui:Button text="Quit" name="Quit" class="button label" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
