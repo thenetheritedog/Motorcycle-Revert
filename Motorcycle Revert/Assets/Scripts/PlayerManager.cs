@@ -16,6 +16,8 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] float baseSpeed = 5f;
     [SerializeField] float speedIncreasing;
+    [SerializeField] GameObject[] loadedSections;
+    [SerializeField] GameObject[] sectionAssets;
 
 
     private PlayerMovement movement;
@@ -112,6 +114,29 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void LoadNewSection()
+    {
+        if (loadedSections[0] != null) 
+        {
+            Destroy(loadedSections[0]);
+        }
+        for (int i = 0; i < loadedSections.Length -1; i++)
+        {
+            loadedSections[i] = loadedSections[i + 1];
+        }
+        int ran = UnityEngine.Random.Range(0,sectionAssets.Length -1);
+        loadedSections[loadedSections.Length -1] = Instantiate(sectionAssets[ran]);
+        Vector3 newPosOfSection = loadedSections[loadedSections.Length - 2].transform.GetChild(0).transform.position;
+        loadedSections[loadedSections.Length -1].transform.position = newPosOfSection;
+    }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Section"))
+        {
+            collision.enabled = false;
+            LoadNewSection();
+        }
+    }
 
 }

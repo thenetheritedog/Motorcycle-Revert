@@ -74,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.x += inputDirection.x * acceleration/5 * Time.deltaTime;
             velocity.x -= (velocity.x * (1-drag)) * Time.deltaTime;
-            velocity.x += player.speedUsing/5 * Time.deltaTime;
             velocity.y += gravity * Time.deltaTime;
             transform.right = Vector3.Lerp(transform.right, Vector3.right, Time.deltaTime);
             gravity -= gravityFactor * Time.deltaTime;
@@ -89,15 +88,13 @@ public class PlayerMovement : MonoBehaviour
 
     bool CheckGround() 
     {
-        if (rb.linearVelocityY > 0 && !grounded)
-            return false;
         Vector2 downVec = grounded ? -transform.up : Vector3.down;
-        groundHit = Physics2D.CircleCast(transform.position, 0.4f, -transform.up, .5f, groundLayer);
-        if (grounded)
+        groundHit = Physics2D.CircleCast(transform.position, 0.5f, downVec, .2f, groundLayer);
+        if (grounded && groundHit)
         {
-            transform.position = groundHit.point + groundHit.normal/2;
+            transform.position = (groundHit.point + groundHit.normal / 2f);
         }
-        else if (groundHit.distance > 0.1f)
+        else if (rb.linearVelocity.y > 0)
         {
             return false;
         }

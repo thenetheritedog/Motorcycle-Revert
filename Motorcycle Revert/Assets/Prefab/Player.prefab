@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -119,7 +119,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &7059835605804408328
 MonoBehaviour:
@@ -135,14 +135,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
-  acceleration: 9.1
+    m_Bits: 65
+  acceleration: 13.39
   friction: 0.06
   drag: 0.8
   slopeFactor: 0
-  fallGravity: 25.2
-  jumpGravity: 13.08
-  jumpPower: 4
+  fallGravity: 34.3
+  jumpGravity: 22.2
+  jumpPower: 9.2
 --- !u!114 &5291296678765932912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,8 +167,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df1a66f426ffa748b54501b68e8761c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 6
+  breakMask:
+    serializedVersion: 2
+    m_Bits: 64
+  baseSpeed: 15.24
   speedIncreasing: 0.1
+  loadedSections:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  sectionAssets:
+  - {fileID: 4896631419427649923, guid: 02e6c9794d2ebfa4292cef6c17305476, type: 3}
+  - {fileID: 4896631419427649923, guid: de0fc14cccd2e8b4d99811c50f852e21, type: 3}
 --- !u!114 &9222400933544208616
 MonoBehaviour:
   m_ObjectHideFlags: 0
