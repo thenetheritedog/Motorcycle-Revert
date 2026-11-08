@@ -3,6 +3,7 @@
     -unity-font-style: bold;
     -unity-text-align: upper-center;
     font-size: 105%;
+    color: rgb(255, 255, 255);
 }
 
 .button {
@@ -10,14 +11,18 @@
     font-size: 242%;
     -unity-text-align: middle-center;
     flex-shrink: 0;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out-sine;
+    background-color: rgb(71, 72, 82);
 }
 
 .button:hover {
     font-size: 245%;
     transition-timing-function: ease-out-back;
-    transition-duration: 0.1s;
+    transition-duration: 0.2s;
     scale: 1 1;
-    rotate: 2deg;
+    rotate: 0;
     flex-grow: 2;
     translate: 0 -11%;
+    background-color: rgb(75, 81, 101);
 }

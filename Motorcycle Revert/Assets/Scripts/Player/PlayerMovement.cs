@@ -14,9 +14,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpGravity;
     [SerializeField] float jumpPower;
 
+
     float gravityFactor;
     float gravity;
     bool grounded = false;
+    ParticleSystem smokeParticles;
     Vector2 inputDirection;
     Rigidbody2D rb;
     RaycastHit2D groundHit;
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<PlayerManager>();
         rb.linearVelocityX = player.speedUsing;
         gravityFactor = fallGravity;
+        smokeParticles = transform.GetChild(0).GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -63,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
                 velocity -= velocity * (1 - friction) * Time.deltaTime;
                 gravity = -jumpGravity;
             }
-            
+
             
 
             
@@ -79,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
             gravity -= gravityFactor * Time.deltaTime;
         }
         rb.linearVelocity = velocity;
+        HandleSmokeParticles();
     }
 
     public void MoveChange(Vector2 input)
@@ -88,16 +92,18 @@ public class PlayerMovement : MonoBehaviour
 
     bool CheckGround() 
     {
-        Vector2 downVec = grounded ? -transform.up : Vector3.down;
-        groundHit = Physics2D.CircleCast(transform.position, 0.5f, downVec, .2f, groundLayer);
-        if (grounded && groundHit)
+        Vector3 downVec = grounded ? -transform.up : Vector3.down;
+        groundHit = Physics2D.BoxCast(transform.position, new Vector2(0.5f,0.1f), transform.eulerAngles.z, downVec, 1f, groundLayer);
+        if (groundHit && grounded)
         {
-            transform.position = (groundHit.point + groundHit.normal / 2f);
+            transform.position = (transform.position + (0.6f - groundHit.distance) * -downVec);
         }
-        else if (rb.linearVelocity.y > 0)
+        else if (groundHit.distance > 0.4f)
         {
+            grounded = false;
             return false;
         }
+        
         grounded = groundHit;
         return groundHit;
     }
@@ -117,6 +123,27 @@ public class PlayerMovement : MonoBehaviour
             gravityFactor = fallGravity;
         }
             
+    }
+
+    void HandleSmokeParticles()
+    {
+        var emission = smokeParticles.emission;
+        var particleMain = smokeParticles.main;
+        if (CheckGround()) 
+        {
+            emission.rateOverTimeMultiplier = rb.linearVelocity.magnitude;
+
+
+            
+        }
+        else
+        {
+            emission.rateOverTimeMultiplier = 0;
+
+
+        }
+
+        
     }
 
     IEnumerator JumpHold()

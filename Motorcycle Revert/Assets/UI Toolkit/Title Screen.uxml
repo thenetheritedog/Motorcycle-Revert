@@ -1,10 +1,15 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/StyleSheet.uss?fileID=7433441132597879392&amp;guid=aada47d6f13b431419547420da134b5a&amp;type=3#StyleSheet" />
-    <ui:VisualElement name="ROOT" style="flex-grow: 1;">
-        <ui:Label text="Motorcycle&#10;REVERT" name="Title" class="label" style="font-size: 62%; -unity-text-align: upper-left; margin-top: 4%; margin-right: 4%; margin-bottom: 4%; margin-left: 4%;" />
-        <ui:VisualElement name="Buttons" style="flex-grow: 1; flex-direction: column; margin-top: 2%; margin-right: 57%; margin-bottom: 2%; margin-left: 2%;">
-            <ui:Button text="Start" name="Start" class="button label" />
-            <ui:Button text="Quit" name="Quit" class="button label" />
+    <ui:VisualElement name="ROOT" style="flex-grow: 1; color: rgb(0, 0, 0); background-color: rgb(101, 90, 86); flex-direction: row;">
+        <ui:VisualElement name="Left" style="flex-grow: 1;">
+            <ui:Label text="Motorcycle&#10;REVERT" name="Title" class="label" style="font-size: 62%; -unity-text-align: upper-left; margin-top: 4%; margin-right: 4%; margin-bottom: 4%; margin-left: 4%;" />
+            <ui:VisualElement name="Buttons" style="flex-grow: 1; flex-direction: column; margin-top: 2%; margin-right: 29%; margin-bottom: 2%; margin-left: 2%;">
+                <ui:Button text="Start" name="Start" class="button label" />
+                <ui:Button text="Quit" name="Quit" class="button label" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Right" style="flex-grow: 1; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px; height: auto; width: 28%;">
+            <ui:Label text="Left and right to control movement&#10;Space to jump&#10;Click to destroy&#10;Release to repair&#10;Drive away from the death fog, you cannot stop and it is constantly going faster and faster. You have the ability to destroy objects and then repair them to a previous state. Reach the Highest score you can!" class="label" style="white-space: normal; letter-spacing: 0; -unity-paragraph-spacing: 160px; word-spacing: 0;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

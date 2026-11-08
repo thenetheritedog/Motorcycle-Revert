@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Section
+  - Death
   layers:
   - Default
   - TransparentFX

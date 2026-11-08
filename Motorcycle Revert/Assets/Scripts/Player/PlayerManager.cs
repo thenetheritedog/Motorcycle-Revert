@@ -2,22 +2,27 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
-    public float speedUsing { get; private set;}
+    public float speedUsing { get; private set; }
     public float distance { get; private set; }
 
     public LayerMask breakMask;
 
-    
+
 
     public CameraManager cameraManager { get; private set; }
 
+    [Header("Values")]
     [SerializeField] float baseSpeed = 5f;
     [SerializeField] float speedIncreasing;
+
+    [Header("Level")] 
     [SerializeField] GameObject[] loadedSections;
     [SerializeField] GameObject[] sectionAssets;
+    [SerializeField] GameObject deathFog;
 
 
     private PlayerMovement movement;
@@ -31,8 +36,15 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 60;
         speedUsing = baseSpeed;
         cameraManager = FindAnyObjectByType<CameraManager>();
+        int ran = UnityEngine.Random.Range(0, sectionAssets.Length);
+        loadedSections[1] = Instantiate(sectionAssets[ran]);
+        ran = UnityEngine.Random.Range(0, sectionAssets.Length);
+        loadedSections[2] = Instantiate(sectionAssets[ran]);
+        Vector3 newPosOfSection = loadedSections[1].transform.GetChild(0).transform.position;
+        loadedSections[2].transform.position = newPosOfSection;
     }
 
     // Update is called once per frame
@@ -40,7 +52,10 @@ public class PlayerManager : MonoBehaviour
     {
         speedUsing += speedIncreasing * Time.deltaTime;
         BreakParticleHandling();
-        
+        distance = Mathf.Max(distance, Mathf.Round(transform.position.x/4));
+        deathFog.transform.position += Vector3.right * Time.deltaTime * speedUsing;
+        deathFog.transform.GetChild(0).transform.localPosition = transform.position.y * Vector3.up;
+
             
         
     }
@@ -89,17 +104,18 @@ public class PlayerManager : MonoBehaviour
             breakingParticle.GetParticles(arrayBreakingParticle);
 
             if (arrayBreakingParticle[0].remainingLifetime != 0)
-                mainPart.simulationSpeed = Mathf.Sqrt(arrayBreakingParticle[0].remainingLifetime - 0.025f / 2);
+                mainPart.simulationSpeed = Mathf.Sqrt((arrayBreakingParticle[0].remainingLifetime - 0.225f) / 2);
             
 
        }
        else if (breakingParticle != null)
        {
             var mainPart = breakingParticle.main;
+            var velocityOverLifeTime = breakingParticle.velocityOverLifetime;
             mainPart.simulationSpeed = 1;
             breakingParticle.GetParticles(arrayBreakingParticle);
-            float simTime = arrayBreakingParticle[0].startLifetime - arrayBreakingParticle[0].remainingLifetime - Time.deltaTime/6;
-            breakingParticle.Simulate(simTime, false, true);
+            float simTime = arrayBreakingParticle[0].remainingLifetime;
+            velocityOverLifeTime.radial = -40; 
             if (simTime < 0.025f)
             {
                 breakingParticle.Stop();
@@ -124,19 +140,25 @@ public class PlayerManager : MonoBehaviour
         {
             loadedSections[i] = loadedSections[i + 1];
         }
-        int ran = UnityEngine.Random.Range(0,sectionAssets.Length -1);
-        loadedSections[loadedSections.Length -1] = Instantiate(sectionAssets[ran]);
-        Vector3 newPosOfSection = loadedSections[loadedSections.Length - 2].transform.GetChild(0).transform.position;
-        loadedSections[loadedSections.Length -1].transform.position = newPosOfSection;
+        int ran = UnityEngine.Random.Range(0,sectionAssets.Length);
+        loadedSections[2] = Instantiate(sectionAssets[ran]);
+        Vector3 newPosOfSection = loadedSections[1].transform.GetChild(0).transform.position;
+        loadedSections[2].transform.position = newPosOfSection;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Section"))
         {
-            collision.enabled = false;
             LoadNewSection();
         }
+        
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Death"))
+        {
+            SceneManager.LoadScene("Title Screen");
+        }
+    }
 }
