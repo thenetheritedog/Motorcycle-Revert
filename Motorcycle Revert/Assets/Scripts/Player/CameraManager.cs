@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -6,7 +7,13 @@ public class CameraManager : MonoBehaviour
     [SerializeField] float yOffset;
     [SerializeField] float yClamp;
     [SerializeField] Vector2 camLimit;
+
+    [Header("Buildings")]
+    [SerializeField] BackgroundManager[] backgroundAssets;
+
+
     public Vector2 mousePos { get; private set; }
+    public Vector3 changedPos { get; private set; }
 
 
     float baseSpeed;
@@ -22,7 +29,20 @@ public class CameraManager : MonoBehaviour
         player = FindAnyObjectByType<PlayerManager>();
         cam = Camera.main;
         cameraObject = transform.GetChild(0).gameObject;
-
+        float dis = 24f;
+        for (int i = 0; i < 5; i++)
+        {
+            int ran = Random.Range(0, backgroundAssets.Length);
+            BackgroundManager instance = Instantiate(backgroundAssets[ran]);
+            Vector3 pos = Vector3.zero;
+            pos.x = dis;
+            dis -= Random.Range(2f,3f);
+            pos.z = Random.Range(4f, 5f);
+            instance.transform.localPosition = pos;
+            instance.cam = this;
+            instance.transform.parent = transform;
+        }
+        CreateBuilding();
     }
 
     // Update is called once per frame
@@ -33,10 +53,12 @@ public class CameraManager : MonoBehaviour
         
         pos.x = Mathf.Lerp(transform.position.x, player.transform.position.x + 5, Time.deltaTime * speedOfCamera);
         pos.y = Mathf.Lerp(pos.y, player.transform.position.y + yOffset, speedOfCamera * Time.deltaTime);
+        changedPos = transform.position - pos;
         transform.position = pos;
         cameraOffset = Vector2.Lerp(cameraOffset, cameraOffsetTarget, Time.deltaTime * speedOfCamera);
-        cameraObject.transform.position = transform.position;
-        cameraObject.transform.position += new Vector3(cameraOffset.x, cameraOffset.y, -10f);
+        changedPos += cameraObject.transform.localPosition - new Vector3(cameraOffset.x, cameraOffset.y, -10f);
+        cameraObject.transform.localPosition = new Vector3(cameraOffset.x, cameraOffset.y, -10f);
+
     }
 
     public void ChangeCameraOffset(Vector2 input)
@@ -56,9 +78,30 @@ public class CameraManager : MonoBehaviour
 
         cameraOffsetTarget.x *= camLimit.x;
         cameraOffsetTarget.y *= camLimit.y;
-
-
+    }
+    void CreateBuilding()
+    {
+        int ran = Random.Range(0, backgroundAssets.Length);
+        BackgroundManager instance = Instantiate(backgroundAssets[ran]);
+        instance.transform.position = transform.position;
+        Vector3 pos = instance.transform.position;
+        pos.x += 27;
+        pos.z = Random.Range(4f, 5f);
+        instance.transform.localPosition = pos;
+        instance.cam = this;
+        instance.transform.parent = transform;
+        StartCoroutine(BackgroundDelay());
         
+
+
+    }
+
+    IEnumerator BackgroundDelay()
+    {
+        float posRn = transform.position.x;
+        posRn += Random.Range(27f,48f);
+        yield return new WaitUntil(() => posRn < transform.position.x);
+        CreateBuilding(); 
     }
 
     
